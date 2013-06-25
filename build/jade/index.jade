@@ -8,6 +8,9 @@ html(lang="en")
 			meta(name="viewport", content="width=device-width, initial-scale=1.0" )
 		block stylesheet
 			link(rel="stylesheet", href="/css/main.css")
+		block jsHeader
+			script(src="http://code.jquery.com/jquery-1.8.0.min.js")
+
 	body
 		block page
 			div.pane
@@ -15,15 +18,14 @@ html(lang="en")
 					nav.menu 
 					h1 chat
 					nav.user					
-				div.room
-				div.room-list
-				div.messages
+				div#room
+				div#room-list
+				div#messages
 				form#send-form
 					input#send-message
-					imput#send-button(type="submit", value="send")
+					input#send-button(type="button", value="send")
 					div.help
-						p
-							chatCommands
+						p chat Commands
 						ul 
 							li
 								change nickname:
@@ -38,6 +40,52 @@ html(lang="en")
 
 		block jsfooter
 			script(src="/socket.io/socket.io.js")
-			script(src="js/jquery-2.0.2.min.js")
 			script(src="js/chat.js")
 			script(src="js/chat_ui.js")
+			script
+				var socket = io.connect();
+				$(document).ready(function(){
+					var chatApp =  new Chat(socket);
+					socket.on('nameResult',function(result){
+						var message;
+						if(result.success){
+							message = 'You are now know as ' + result.name + '.';
+						} else {
+							message =  result.message;
+						}
+						$('#messages').append(divSystemContentElement(message));
+
+					});
+					socket.on('joinResult',function(result){
+						$('#room').text(result.room);
+						$('#messages').append(divSystemContentElement('Room changed'));
+					});
+					socket.on('message',function(message){
+						var newElement = $('<div></div>').text(message.text);
+						$('#messages').append(newElement);
+					});
+					socket.on('rooms',function(rooms){
+						$('#room-list').empty();
+
+						for(var room in rooms){
+							room = room.substring(1,room.length);
+							if(room!=''){
+								$('#room-list').append(divEscapedContentElement(room));
+							}
+						}
+						$('#room-list div').click(function(){
+							chatApp.proccessCommand('/join ' + $(this).text());
+							$('#send-message').focus();
+						});
+					});
+					setInterval(function(){
+						socket.emit('rooms')
+					},1000);
+
+					$('#send-message').focus();
+					$('#send-button').click(function(){
+						proccessUserInput(chatApp,socket);
+						return false;
+					});
+				});
+				
