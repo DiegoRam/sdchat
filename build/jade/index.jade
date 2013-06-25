@@ -1,0 +1,43 @@
+doctype 5
+html(lang="en")
+	head
+		block meta
+			meta(charset="utf-8")
+			meta(description="Juega con amigos")
+			meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+			meta(name="viewport", content="width=device-width, initial-scale=1.0" )
+		block stylesheet
+			link(rel="stylesheet", href="/css/main.css")
+	body
+		block page
+			div.pane
+				header
+					nav.menu 
+					h1 chat
+					nav.user					
+				div.room
+				div.room-list
+				div.messages
+				form#send-form
+					input#send-message
+					imput#send-button(type="submit", value="send")
+					div.help
+						p
+							chatCommands
+						ul 
+							li
+								change nickname:
+								code
+									/nick [username]
+							li
+								join/create room:
+								code
+									/join [room name]
+
+
+
+		block jsfooter
+			script(src="/socket.io/socket.io.js")
+			script(src="js/jquery-2.0.2.min.js")
+			script(src="js/chat.js")
+			script(src="js/chat_ui.js")

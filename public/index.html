@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta description="Juega con amigos">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <div class="pane">
+      <header>
+        <nav class="menu"> </nav>
+        <h1>chat</h1>
+        <nav class="user">					</nav>
+      </header>
+      <div class="room"></div>
+      <div class="room-list"></div>
+      <div class="messages"></div>
+      <form id="send-form">
+        <input id="send-message">
+        <imput id="send-button" type="submit" value="send"></imput>
+        <div class="help">
+          <p>
+            <chatCommands></chatCommands>
+          </p>
+          <ul> 
+            <li>
+              <change>nickname:</change><code>/nick [username]</code>
+            </li>
+            <li>
+              <join>
+              <create>room:</create><code>/join [room name]</code>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/chat_ui.js"></script>
+  </body>
+</html>
