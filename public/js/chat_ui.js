@@ -8,7 +8,6 @@ function divSystemContentElement(message){
 }
 
 function proccessUserInput(chatApp,socket){
-	console.log('entro al proceso');
 	var message = $('#send-message').val();
 	var systemMessage;
 
@@ -19,7 +18,6 @@ function proccessUserInput(chatApp,socket){
 		}
 	} else {
 		chatApp.sendMessage($('#room').text(), message);
-		console.log('despues de enviar mensaje: ' + message);
 		$('#messages').append(divEscapedContentElement(message));
 		$('#messages').scrollTop($('#messages').prop('scrollHeight'));
 	}
