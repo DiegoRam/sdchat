@@ -38,6 +38,12 @@ $(document).ready(function(){
 	},1000);
 
 	$('#send-message').focus();
+	$('#send-form').bind('keypress',function(e){
+		if(e.keyCode == 13){
+			proccessUserInput(chatApp,socket);
+			return false;			
+		}
+	});
 	$('#send-button').click(function(){
 		proccessUserInput(chatApp,socket);
 		return false;
